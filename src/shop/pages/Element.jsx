@@ -20,7 +20,7 @@ export const Element = () => {
 	const onNavigateBack = () => {
 		navigate(-1);
 	};
-	console.log(product.stock);
+
 	const { counter, increment, decrement, reset } = useCounter(1, product.stock);
 
 	const onHome = () => {
@@ -75,7 +75,6 @@ export const Element = () => {
 			});
 		}
 	};
-	console.log(cartProducts);
 
 	if (!product) {
 		return <Navigate to="/" />;
