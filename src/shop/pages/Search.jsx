@@ -9,10 +9,9 @@ export const Search = () => {
 	const navigate = useNavigate();
 	// To see the location
 	const location = useLocation();
-	// console.log(location);
+
 	// To avoid hardWork with location, import queryString
 	const { q = '' } = queryString.parse(location.search);
-	// console.log(q);
 
 	const products = getProductBySearchName(q);
 
@@ -26,7 +25,7 @@ export const Search = () => {
 			navigate('/search');
 		}
 		if (searchText.trim().length <= 2) return;
-		// console.log(searchText);
+
 		navigate(`?q=${searchText.toLowerCase().trim()}`);
 	};
 
@@ -35,23 +34,19 @@ export const Search = () => {
 
 	return (
 		<>
-			{/* <h1>Search</h1>
-			<hr /> */}
 			<div className="row mt-4">
 				<div className="col-5">
 					<h4>searching</h4>
 					<hr />
-					<form
-						onSubmit={onSearchSubmit} // Valor muy importante
-					>
+					<form onSubmit={onSearchSubmit}>
 						<input
 							type="text"
 							placeholder="search Product"
 							className="form-control"
 							autoComplete="off"
-							name="searchText" // Valor muy relevante
-							value={searchText} // Valor muy relevante
-							onChange={onInputChange} // Valor muy relevante
+							name="searchText"
+							value={searchText}
+							onChange={onInputChange}
 						/>
 						<button className="btn btn-outline-primary mt-1">Search</button>
 					</form>

@@ -11,24 +11,17 @@ import { useMemo } from 'react';
 // import img from '../../../assets/allProducts.jpg';
 
 export const Element = () => {
-	//Start test
 	const { cartProducts, addToCart, canBeAdd, getAmountInCart } =
 		useCartContext();
-	// end test
 	const { nameId } = useParams();
 	const navigate = useNavigate();
 
 	const product = useMemo(() => getProductByName(nameId), [nameId]);
-	// console.log(product);
 	const onNavigateBack = () => {
 		navigate(-1);
 	};
 	console.log(product.stock);
 	const { counter, increment, decrement, reset } = useCounter(1, product.stock);
-
-	const onNavigateBuy = () => {
-		navigate('/cart');
-	};
 
 	const onHome = () => {
 		navigate('/');
@@ -65,7 +58,6 @@ export const Element = () => {
 					confirmButtonText: 'Go home',
 					preConfirm: onHome,
 					footer: '<a href="/cart">Go to the cart?</a>',
-					// cancelButtonText: 'Go to Cart',
 				});
 			} else {
 				Swal.fire({
@@ -134,8 +126,6 @@ export const Element = () => {
 						>
 							-1
 						</button>
-						{/* <button className="btn btn-success me-2">-1</button>
-						<button className="btn btn-secondary me-2">-1</button> */}
 					</div>
 					<hr />
 					<div className="d-flex justify-content-end align-items-center">

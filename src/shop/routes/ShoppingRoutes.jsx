@@ -12,7 +12,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Navbar } from '../../ui';
 
 export const ShoppingRoutes = () => {
-	const test = 'blablab';
 	return (
 		<>
 			<Navbar />
@@ -22,7 +21,7 @@ export const ShoppingRoutes = () => {
 					<Route path="/technology" element={<Technology />} />
 					<Route path="/sport" element={<Sport />} />
 					<Route path="/building" element={<Building />} />
-					<Route path="/cart" element={<Cart test={test} />} />
+					<Route path="/cart" element={<Cart />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/product/:nameId" element={<Element />} />
 					<Route path="/" element={<Navigate to="/technology" />} />

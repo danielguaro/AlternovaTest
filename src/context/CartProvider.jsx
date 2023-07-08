@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { CartContext } from './CartContext';
-import { products } from '../shop/data/products.json';
 
 export const CartProvider = ({ children }) => {
-	// de clase de CoderHose
 	const [cartProducts, setCartProducts] = useState(() => {
 		try {
 			const storedCartProducts = localStorage.getItem('cartProducts');
