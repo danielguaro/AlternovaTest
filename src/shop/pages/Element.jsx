@@ -1,18 +1,25 @@
+import 'sweetalert2/dist/sweetalert2.css';
+
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
+import Swal from 'sweetalert2';
 import { getProductByName } from '../helpers';
-import { useMemo } from 'react';
+import { useCartContext } from '../../context/CartContext';
 import { useCounter } from '../hooks/useCounter';
-import { Cart } from './Cart';
+import { useMemo } from 'react';
 
 // import img from '../../../assets/allProducts.jpg';
 
 export const Element = () => {
+	//Start test
+	const { cartProducts, addToCart, canBeAdd, getAmountInCart } =
+		useCartContext();
+	// end test
 	const { nameId } = useParams();
 	const navigate = useNavigate();
 
 	const product = useMemo(() => getProductByName(nameId), [nameId]);
-	console.log(product);
+	// console.log(product);
 	const onNavigateBack = () => {
 		navigate(-1);
 	};
@@ -22,6 +29,61 @@ export const Element = () => {
 	const onNavigateBuy = () => {
 		navigate('/cart');
 	};
+
+	const onHome = () => {
+		navigate('/');
+	};
+
+	const onCheckBeforeAdd = (amount = counter) => {
+		const currentAmountInCart = getAmountInCart(product.name);
+		if (product.stock === 0) {
+			Swal.fire({
+				icon: 'error',
+				title: `There is no stock at the moment`,
+				showConfirmButton: true,
+				timer: 1500,
+			});
+		} else if (currentAmountInCart + amount >= product.stock) {
+			Swal.fire({
+				icon: 'error',
+				title: `You have already reached the maximum quantity available in the cart`,
+				showConfirmButton: true,
+			});
+		} else {
+			increment(1);
+		}
+	};
+
+	const onAdd = (amount = counter) => {
+		if (canBeAdd(amount, product)) {
+			if (product.stock >= amount) {
+				addToCart({ ...product, amount: amount });
+				Swal.fire({
+					icon: 'success',
+					title: `${product.name} added`,
+					showConfirmButton: true,
+					confirmButtonText: 'Go home',
+					preConfirm: onHome,
+					footer: '<a href="/cart">Go to the cart?</a>',
+					// cancelButtonText: 'Go to Cart',
+				});
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: `You have already all the available items in the cart`,
+					showConfirmButton: true,
+					timer: 1500,
+				});
+			}
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'it looks like we don´t have enough stock ',
+			});
+		}
+	};
+	console.log(cartProducts);
 
 	if (!product) {
 		return <Navigate to="/" />;
@@ -59,7 +121,7 @@ export const Element = () => {
 					<div className="d-flex justify-content-end align-items-center mt-4">
 						<button
 							className="btn btn-outline-primary me-2"
-							onClick={() => increment(1)}
+							onClick={() => onCheckBeforeAdd()}
 						>
 							+1
 						</button>
@@ -79,9 +141,9 @@ export const Element = () => {
 					<div className="d-flex justify-content-end align-items-center">
 						<button
 							className="btn btn-outline-primary me-4 animate__animated animate__pulse"
-							onClick={onNavigateBuy}
+							onClick={() => onAdd(counter)}
 						>
-							buy
+							Add to Cart
 						</button>
 						<button className="btn btn-outline-danger" onClick={onNavigateBack}>
 							Back

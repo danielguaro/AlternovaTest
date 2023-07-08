@@ -1,8 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { ProductCard } from '../components/ProductCard';
-import { useForm } from '../hooks/useForm';
-import queryString from 'query-string';
 import { getProductBySearchName } from '../helpers';
+import queryString from 'query-string';
+import { useForm } from '../hooks/useForm';
 
 export const Search = () => {
 	const navigate = useNavigate();
@@ -56,7 +57,14 @@ export const Search = () => {
 					</form>
 				</div>
 				<div className="col-12">
-					<h4>Results</h4>
+					<h4 className="mt-2">
+						{products.length > 0 && (
+							<>
+								Results{' '}
+								<strong className="text-primary">{products.length}</strong>
+							</>
+						)}
+					</h4>
 					<hr />
 					<div
 						className="alert alert-primary animate__animated animate__fadeIn"
